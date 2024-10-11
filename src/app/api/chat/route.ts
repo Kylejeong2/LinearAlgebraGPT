@@ -12,12 +12,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const stream = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o",
       messages: [
         { role: "system", content: "You are a helpful assistant specialized in linear algebra. Provide clear and concise explanations for linear algebra concepts and problems. Use LaTeX for mathematical expressions, surrounding inline equations with $ symbols and block equations with $$ symbols." },
         ...messages.slice(-3)
       ],
-      max_tokens: 1000,
+      max_tokens: 500,
       temperature: 0.7,
       stream: true,
     });
