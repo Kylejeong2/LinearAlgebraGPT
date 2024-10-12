@@ -1,0 +1,6 @@
+make a .env
+run the website local
+get api key 
+fix the enter thing
+
+-User/AI background color

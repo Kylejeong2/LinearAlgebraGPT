@@ -13,7 +13,7 @@ export default function Home() {
         <div className="mt-8">
           {messages.map((m) => (
             <div key={m.id} className="mb-4">
-              <div className="font-bold">{m.role === 'user' ? 'You:' : 'AI:'}</div>
+              <div className="font-bold ">{m.role === 'user' ? 'You:' : 'AI:'}</div>
               <FormattedText content={m.content} />
             </div>
           ))}
