@@ -36,3 +36,11 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+
+# python
+scripts/cleaned_data.json
+scripts/texting.json
+scripts/venv
+
+scripts/embeddings_data.json
+scripts/lineartextbook.json
