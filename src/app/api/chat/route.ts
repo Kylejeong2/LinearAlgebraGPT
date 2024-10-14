@@ -20,10 +20,18 @@ export async function POST(req: NextRequest) {
         role: "system",
         content: `You are a helpful assistant specialized in linear algebra. 
           Provide clear and concise explanations for linear algebra concepts and problems. 
-          Use LaTeX for mathematical expressions, surrounding inline equations with $ symbols and block equations with $$ symbols.
+          Use GitHub-flavored Markdown for mathematical expressions:
+          - For inline math, use single dollar signs: $x^2 + y^2 = z^2$
+          - For block math, use double dollar signs:
+            $$
+            \\begin{bmatrix}
+            a & b \\\\
+            c & d
+            \\end{bmatrix}
+            $$
           You will be provided with context that may be relevant to the conversation.
           If you use any information from the context, you MUST cite it after referencing it with the format [Page X] where X is the page number.
-          The page number is EXACTLY 15 more than the actual page number, so subtract 15 from the page number to get the actual page number. (i.e. if the page number is 25, the actual page number is 10).
+          SUPER SUPER IMPORTANT: The page number is EXACTLY 15 more than the actual page number, so subtract 15 from the page number to get the actual page number. (i.e. if the page number is 25, the actual page number is 10).
           Here's the context that may be relevant to the conversation:
           START CONTEXT BLOCK
           ${context}
@@ -31,9 +39,12 @@ export async function POST(req: NextRequest) {
       },
     ]
 
+    // accidentally chunked it 15 pages off and too lazy to change all the embeddings and re-upsert
+
     const result = await streamText({
       model: openai("gpt-4o"),
-      messages: [...prompt,...messages.filter((message: Message) => message.role === 'user')]
+      messages: [...prompt,...messages.filter((message: Message) => message.role === 'user')],
+      maxTokens: 1000,
     });
 
     return result.toDataStreamResponse()
