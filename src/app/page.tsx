@@ -2,9 +2,15 @@
 
 import { useChat } from 'ai/react';
 import FormattedText from '@/components/FormattedText';
+import { useState } from 'react';
 
 export default function Home() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const [highlightedPage, setHighlightedPage] = useState<number | null>(null);
+
+  const handlePageHighlight = (pageNumber: number) => {
+    setHighlightedPage(pageNumber);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -14,7 +20,11 @@ export default function Home() {
           {messages.map((m) => (
             <div key={m.id} className="mb-4">
               <div className="font-bold ">{m.role === 'user' ? 'You:' : 'AI:'}</div>
-              <FormattedText content={m.content} />
+              <FormattedText 
+                content={m.content} 
+                onPageHighlight={handlePageHighlight}
+                highlightedPage={highlightedPage}
+              />
             </div>
           ))}
         </div>

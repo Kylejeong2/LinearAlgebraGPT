@@ -6,9 +6,51 @@ import 'katex/dist/katex.min.css';
 
 interface FormattedTextProps {
   content: string;
+  onPageHighlight: (pageNumber: number) => void;
+  highlightedPage: number | null;
 }
 
-const FormattedText: React.FC<FormattedTextProps> = ({ content }) => {
+const FormattedText: React.FC<FormattedTextProps> = ({ content, onPageHighlight, highlightedPage }) => {
+  const pageRegex = /\(p\. (\d+)\)/g;
+
+  const renderContent = (text: string) => {
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = pageRegex.exec(text)) !== null) {
+      const [fullMatch, pageNumber] = match;
+      const index = match.index;
+
+      // Add text before the page number
+      if (index > lastIndex) {
+        parts.push(text.slice(lastIndex, index));
+      }
+
+      // Add the page number as a clickable span
+      parts.push(
+        <span
+          key={index}
+          onClick={() => onPageHighlight(parseInt(pageNumber))}
+          className={`cursor-pointer ${
+            parseInt(pageNumber) === highlightedPage ? 'bg-yellow-200' : 'hover:bg-gray-200'
+          }`}
+        >
+          {fullMatch}
+        </span>
+      );
+
+      lastIndex = index + fullMatch.length;
+    }
+
+    // Add any remaining text
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+
+    return parts;
+  };
+
   return (
     <ReactMarkdown
       remarkPlugins={[remarkMath]}
@@ -26,6 +68,8 @@ const FormattedText: React.FC<FormattedTextProps> = ({ content }) => {
           ) : (
             <code className="block bg-gray-100 p-2 rounded mb-4" {...props} />
           ),
+        // Add custom rendering for text nodes
+        text: ({ children }) => <>{renderContent(children as string)}</>,
       }}
     >
       {content}
