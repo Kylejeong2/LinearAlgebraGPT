@@ -20,15 +20,8 @@ export async function POST(req: NextRequest) {
         role: "system",
         content: `You are a helpful assistant specialized in linear algebra. 
           Provide clear and concise explanations for linear algebra concepts and problems. 
-          Use GitHub-flavored Markdown for mathematical expressions:
-          - For inline math, use single dollar signs: $x^2 + y^2 = z^2$
-          - For block math, use double dollar signs:
-            $$
-            \\begin{bmatrix}
-            a & b \\\\
-            c & d
-            \\end{bmatrix}
-            $$
+          Use PERFECT Latex for mathematical expressions.
+          Do not write the Latex the same way that it is given in the Context, just write it the way you have been trained. 
           You will be provided with context that may be relevant to the conversation.
           If you use any information from the context, you MUST cite it after referencing it with the format [Page X] where X is the page number.
           SUPER SUPER IMPORTANT: The page number is EXACTLY 15 more than the actual page number, so subtract 15 from the page number to get the actual page number. (i.e. if the page number is 25, the actual page number is 10).

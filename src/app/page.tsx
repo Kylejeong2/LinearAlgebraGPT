@@ -20,7 +20,7 @@ export default function Home() {
     if (input.trim()) {
       handleSubmit(e);
       setIsTyping(false);
-      setIsTitleMoved(true);  // Set this to true when a question is submitted
+      setIsTitleMoved(true);  
     }
   };
 
